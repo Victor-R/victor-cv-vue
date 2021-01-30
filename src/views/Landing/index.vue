@@ -4,16 +4,13 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import AvatarCard from "@/components/AvatarCard.vue";
-import store from "@/store";
+
+import AvatarCard from "./AvatarCard.vue";
 
 export default defineComponent({
   name: "App",
   components: {
     AvatarCard
-  },
-  created() {
-    store.dispatch("fetchUser");
   }
 });
 </script>

@@ -1,14 +1,22 @@
 <template>
-  <transition name="scale" mode="out-in">
-    <router-view :key="$route.path" />
-  </transition>
+  <router-view v-slot="{ Component }">
+    <transition name="scale" mode="out-in">
+      <component :is="Component" />
+    </transition>
+  </router-view>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import store from "@/store";
 
 export default defineComponent({
-  name: "App"
+  name: "App",
+  beforeMount() {
+    if (!store.state.user) {
+      store.dispatch("fetchUser");
+    }
+  }
 });
 </script>
 
@@ -25,12 +33,22 @@ body {
   -webkit-animation: Gradient 10s ease infinite;
   -moz-animation: Gradient 10s ease infinite;
   animation: Gradient 10s ease infinite;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
   background-size: 400% 400%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.section-title {
+  background: linear-gradient(-45deg, #9c27b0, #3f51b5, #009688, #4caf50);
+  -webkit-animation: Gradient 10s ease infinite;
+  -moz-animation: Gradient 10s ease infinite;
+  animation: Gradient 10s ease infinite;
+  border-radius: 10px;
+  background-size: 400% 400%;
 }
 
 .scale-enter-active {

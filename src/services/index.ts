@@ -10,5 +10,8 @@ const apiClient = axios.create({
 export default {
   getUser(username: string): Promise<AxiosResponse> {
     return apiClient.get("/users/" + username);
+  },
+  getUserRepositories(username: string): Promise<AxiosResponse> {
+    return apiClient.get(`/users/${username}/repos`);
   }
 };

@@ -1,28 +1,35 @@
 <template>
-  <Loading v-if="!user.avatar_url" class="loading-icon text-gray-700" spin />
+  <Loading v-if="!user" class="loading-icon text-gray-700 text-8xl" spin />
   <div
     v-else
     class="avatar-card bg-gray-700 shadow-md h-auto rounded-xl flex flex-row place-items-center "
   >
     <img
+      :v-if="user"
       :src="user.avatar_url"
       class="rounded-full avatar-image"
       alt="avatarImage"
     />
     <div class="flex flex-col place-items-center">
-      <h1 class="text-white title text-4xl">Victor Henrique Ribeiro</h1>
+      <h1 class="text-white title text-4xl font-roboto">
+        Victor Henrique Ribeiro
+      </h1>
       <router-link :to="{ name: 'Main' }">
-        <button class="button-link shadow-lg">
+        <button class="button-link shadow-lg font-roboto">
           Mostrar mais
-          <DownOutlined width="24" height="24" class="down-icon" /></button
+          <DownOutlined
+            width="24"
+            height="24"
+            class="down-icon text-sm"
+          /></button
       ></router-link>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import store, { User } from "@/store";
-import { computed, defineComponent } from "vue";
+import { useStore } from "vuex";
+import { defineComponent, computed } from "vue";
 import DownOutlined from "@ant-design/icons-vue/DownOutlined";
 import Loading from "@ant-design/icons-vue/LoadingOutlined";
 
@@ -32,9 +39,10 @@ export default defineComponent({
     Loading
   },
   setup() {
-    const user = computed(() => store.state.user as User);
+    const store = useStore();
+
     return {
-      user
+      user: computed(() => store.state.user)
     };
   }
 });
@@ -54,6 +62,7 @@ export default defineComponent({
 .loading-icon {
   font-size: 64px;
 }
+
 .button-link {
   color: #fff;
   background-color: #22569f;
@@ -70,9 +79,11 @@ export default defineComponent({
   display: flex;
   align-items: center;
 }
+
 .button-link:hover {
-  background-color: rgb(23, 60, 111);
+  background-color: #173c6f;
 }
+
 .down-icon {
   margin-left: 8px;
 }
