@@ -1,31 +1,41 @@
 <template>
   <div
-    class="container mx-auto my-10 bg-gray-700 shadow-md h-auto rounded-xl flex flex-col"
+    class="container mx-auto mb-6 shadow-md h-auto rounded-xl flex flex-col"
+    :class="theme === 'dark' ? 'bg-gray-700' : 'bg-white'"
   >
     <router-link
       :to="{ name: 'Landing' }"
       class="back-link flex place-content-center"
     >
-      <UpOutlined class="text-sm" />
+      <UpOutlined
+        class="text-sm"
+        :class="theme === 'dark' ? 'text-white' : 'text-black'"
+      />
     </router-link>
-    <Loading v-if="!user" class="loading-icon text-white text-8xl" spin />
+    <Loading v-if="!user" class="loading-icon text-8xl" spin />
     <div v-else class="grid grid-cols-12 gap-0 p-8">
       <UserStats class="col-span-full md:col-span-3 mx-4" />
       <div class="col-span-full md:col-span-9 mt-6 md:mt-0">
         <SectionText
           v-for="{ title, content } in sections"
           :key="title"
-          :title="title"
-          :content="content"
+          :title="language === 'pt-BR' ? title.ptBR : title.enUS"
+          :content="language === 'pt-BR' ? content.ptBR : content.enUS"
         />
-        <h3 class="text-center text-5xl mb-2 section-title font-lobster">
-          Projetos Recentes
+        <h3
+          class="text-center text-5xl text-white mb-2 section-title font-lobster"
+        >
+          {{ language === "pt-BR" ? "Projetos Recentes" : "Recent Projects" }}
         </h3>
         <button
           @click="handleOpenInNewTab(user.html_url)"
-          class="font-roboto transition-button font-bold uppercase mt-2 bg-button hover:bg-buttonhover shadow w-full py-1.5 px-4 text-sm tracking-wider rounded"
+          class="font-roboto transition-button font-bold text-white uppercase mt-2 bg-button hover:bg-buttonhover shadow w-full py-1.5 px-4 text-sm tracking-wider rounded"
         >
-          Acesse minha página do Github
+          {{
+            language === "pt-BR"
+              ? "Acesse minha página do Github"
+              : "Visit my github page"
+          }}
           <GithubFilled class="text-3xl" />
         </button>
         <div class="overflow-y-auto h-96 mt-2">
@@ -55,11 +65,7 @@ import SectionText from "@/components/SectionText.vue";
 import Loading from "@ant-design/icons-vue/LoadingOutlined";
 import GithubFilled from "@ant-design/icons-vue/GithubFilled";
 import { useStore } from "vuex";
-
-interface Section {
-  title: string;
-  content: string;
-}
+import Sections from "./sections";
 
 export default defineComponent({
   components: {
@@ -73,42 +79,17 @@ export default defineComponent({
     const store = useStore();
 
     store.dispatch("fetchRepositories");
-    const sections: Section[] = [
-      {
-        title: "Sobre mim",
-        content: `Olá meu nome é Victor, sou desenvolvedor de software atualmente trabalhando como desenvolvedor frontend. 
-          Desde que realizei meu Técnico em Informática, me apaixonei
-          por programação. Formado em Ciência da Computação pela
-          UNESP. Tenho como objetivo de vida sempre continuar aprendendo coisas novas, ultimamente tenho utilizado mais ferramentas como: React, React Redux, React
-          Native, Vue (2 e 3), Vuex, Unity.<br><br>
-          Profissionalmente, atuei em projetos internacionais, com interações com pessoas de vários países como: Estados Unidos, Suécia, França e Índia. Atualmente estou
-          trabalhando em projetos concentrados aqui na América Latina com empresas de diversos setores.
-          <br><br>Você pode acompanhar alguns dos meus projetos na seção "Projetos Recentes". *Participo de outros projetos privados que não estão
-          listados aqui`
-      },
-      {
-        title: "Formação",
-        content: `Bacharelado em Ciência da Computação – Junho, 2019 Universidade Estadual Paulista – UNESP – Rio Claro, SP<br>
-Curso Técnico em Tecnologia da Informação – Dezembro, 2012 ETEC – Escola Técnica Dep. Ary de Camargo Pedroso – Piracicaba, SP`
-      },
-      {
-        title: "Experiência Profissional",
-        content: `<li>GAtec S/A – Gestão Agroindustrial; Agosto/2016 até Dezembro/2016; Infra - Estágio</li>
-                  <li>CENTRUS – Central do SUS – Prefeitura de Piracicaba; Junho/2015 até Julho/2016; Infra - Estágio</li>
-                  <li>Icaro Tech – Serviços e Comércio; Janeiro/2017 até Junho/2017; Analista de Suporte - Estágio</li>
-                  <li>DEDINI – Indústrias de Base; Agosto/2017 – até Agosto/2019; Analista de Sistema Júnior</li>
-                  <li><b>Daitan Group; Agosto/2019 – até o momento; Desenvolvedor Front-end</b></li>`
-      }
-    ];
 
     function handleOpenInNewTab(link: string) {
       return window.open(link, "__blank");
     }
 
     return {
-      sections,
+      sections: Sections,
       handleOpenInNewTab,
       user: computed(() => store.state.user),
+      language: computed(() => store.state.language),
+      theme: computed(() => store.state.theme),
       reposList: computed(() => store.state.reposList)
     };
   }

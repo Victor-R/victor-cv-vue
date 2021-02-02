@@ -7,7 +7,9 @@
       alt="avatarImage"
     />
     <p class="text-lg font-roboto">Victor Henrique Ribeiro</p>
-    <label class="text-sm font-roboto">Desenvolvedor frontend</label>
+    <label class="text-sm font-roboto">{{
+      language === "pt-BR" ? "Desenvolvedor frontend" : "Frontend Developer"
+    }}</label>
     <div class="flex justify-center icons-container">
       <button @click="handleOpenInNewTab(user.html_url)">
         <GithubFilled />
@@ -40,7 +42,11 @@ export default defineComponent({
       return window.open(link, "__blank");
     }
 
-    return { user: computed(() => store.state.user), handleOpenInNewTab };
+    return {
+      user: computed(() => store.state.user),
+      language: computed(() => store.state.language),
+      handleOpenInNewTab
+    };
   }
 });
 </script>

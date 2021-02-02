@@ -21,7 +21,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
+import { useStore } from "vuex";
 import ThunderboltFilled from "@ant-design/icons-vue/ThunderboltFilled";
 
 export default defineComponent({
@@ -29,21 +30,44 @@ export default defineComponent({
     ThunderboltFilled
   },
   setup() {
-    const skillList = [
-      { name: "Github", value: 80 },
-      {
-        name: "Inglês",
-        value: 95
-      },
-      { name: "React+Redux", value: 85 },
-      { name: "Javascript", value: 90 },
-      { name: "Typescript", value: 75 },
-      { name: "Vue+Vuex", value: 60 },
-      { name: "Express", value: 40 },
-      { name: "React Native", value: 80 },
-      { name: "Unity", value: 30 }
-    ].sort((a, b) => (a.value < b.value ? 1 : -1));
-    return { skillList };
+    const store = useStore();
+    const language = computed(() => store.state.language);
+
+    if (language.value === "pt-BR") {
+      return {
+        skillList: [
+          { name: "Github", value: 80 },
+          {
+            name: "Inglês",
+            value: 95
+          },
+          { name: "React+Redux", value: 85 },
+          { name: "Javascript", value: 90 },
+          { name: "Typescript", value: 75 },
+          { name: "Vue+Vuex", value: 60 },
+          { name: "Express", value: 40 },
+          { name: "React Native", value: 80 },
+          { name: "Unity", value: 30 }
+        ].sort((a, b) => (a.value < b.value ? 1 : -1))
+      };
+    }
+
+    return {
+      skillList: [
+        { name: "Github", value: 80 },
+        {
+          name: "English",
+          value: 95
+        },
+        { name: "React+Redux", value: 85 },
+        { name: "Javascript", value: 90 },
+        { name: "Typescript", value: 75 },
+        { name: "Vue+Vuex", value: 60 },
+        { name: "Express", value: 40 },
+        { name: "React Native", value: 80 },
+        { name: "Unity", value: 30 }
+      ].sort((a, b) => (a.value < b.value ? 1 : -1))
+    };
   }
 });
 </script>

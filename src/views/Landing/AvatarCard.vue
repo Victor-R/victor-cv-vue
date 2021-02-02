@@ -2,7 +2,8 @@
   <Loading v-if="!user" class="loading-icon text-gray-700 text-8xl" spin />
   <div
     v-else
-    class="avatar-card bg-gray-700 shadow-md h-auto rounded-xl flex flex-row place-items-center "
+    class="avatar-card shadow-md h-auto rounded-xl flex flex-row place-items-center "
+    :class="theme === 'dark' ? 'bg-gray-700' : 'bg-white'"
   >
     <img
       :v-if="user"
@@ -11,12 +12,12 @@
       alt="avatarImage"
     />
     <div class="flex flex-col place-items-center">
-      <h1 class="text-white title text-4xl font-roboto">
+      <h1 class="title text-4xl font-roboto">
         Victor Henrique Ribeiro
       </h1>
       <router-link :to="{ name: 'Main' }">
         <button class="button-link shadow-lg font-roboto">
-          Mostrar mais
+          {{ language === "pt-BR" ? "Mostrar mais" : "Show more" }}
           <DownOutlined
             width="24"
             height="24"
@@ -42,7 +43,9 @@ export default defineComponent({
     const store = useStore();
 
     return {
-      user: computed(() => store.state.user)
+      user: computed(() => store.state.user),
+      theme: computed(() => store.state.theme),
+      language: computed(() => store.state.language)
     };
   }
 });
