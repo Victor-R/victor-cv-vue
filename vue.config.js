@@ -1,3 +1,3 @@
 module.exports = {
-  baseUrl: "/victor-cv-vue"
+  publicPath: process.env.NODE_ENV === "production" ? "/victor-cv-vue/" : "/"
 };
