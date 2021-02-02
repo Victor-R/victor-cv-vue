@@ -1,7 +1,6 @@
 {
   "name": "victor-cv-vue",
   "version": "0.1.0",
-  "homepage": "https://victor-r.github.io/victor-cv-vue/",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
