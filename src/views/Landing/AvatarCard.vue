@@ -2,17 +2,17 @@
   <Loading v-if="!user" class="loading-icon text-gray-700 text-8xl" spin />
   <div
     v-else
-    class="avatar-card shadow-md h-auto rounded-xl flex flex-row place-items-center "
+    class="avatar-card grid grid-cols-2 shadow-md h-auto rounded-xl  place-items-center "
     :class="theme === 'dark' ? 'bg-gray-700' : 'bg-white'"
   >
     <img
       :v-if="user"
       :src="user.avatar_url"
-      class="rounded-full avatar-image"
+      class="rounded-full avatar-image col-span-full md:col-span-1"
       alt="avatarImage"
     />
-    <div class="flex flex-col place-items-center">
-      <h1 class="title text-4xl font-roboto">
+    <div class="flex flex-col place-items-center col-span-full md:col-span-1">
+      <h1 class="title text-4xl text-center font-roboto">
         Victor Henrique Ribeiro
       </h1>
       <router-link :to="{ name: 'Main' }">
